@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
     ofstream outfile(fulltarget, ios::out | ios::binary);
 
     // write out
-    ostringstream buffer{};
+    ostringstream buffer;
     buffer << cin.rdbuf();
     outfile << buffer.str() << endl;
     return 0;
