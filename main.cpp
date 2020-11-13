@@ -4,7 +4,7 @@
 #include<string>
 #include<sstream>
 #include<vector>
-#define openbsd 1 // comment out if on linux
+//#define BSD
 
 using namespace std;
 
@@ -20,7 +20,7 @@ int main(int argc, char *argv[]){
 
     // get outfile
     string target = argv[1];
-#ifdef openbsd
+#ifdef BSD
     std::__fs::filesystem::path targetpath = std::__fs::filesystem::current_path();
 #else
     path targetpath = current_path();
