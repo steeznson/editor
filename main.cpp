@@ -1,9 +1,10 @@
-#include<limits.h>
-#include<unistd.h>
+#include<filesystem>
 #include<fstream>
 #include<iostream>
 #include<string>
 #include<sstream>
+#include<vector>
+#define openbsd 1 // comment out if on linux
 
 using namespace std;
 
@@ -19,14 +20,27 @@ int main(int argc, char *argv[]){
 
     // get outfile
     string target = argv[1];
-    char cwd[PATH_MAX];
-    string currentpath = getcwd(cwd, sizeof(cwd));
-    string fulltarget = currentpath + "/" + target;
-    ofstream outfile(fulltarget, ios::out | ios::binary);
+#ifdef openbsd
+    std::__fs::filesystem::path targetpath = std::__fs::filesystem::current_path();
+#else
+    path targetpath = current_path();
+#endif
+    targetpath /= target;
+    ofstream outfile(targetpath, ios::out | ios::binary);
 
     // write out
-    ostringstream buffer;
-    buffer << cin.rdbuf();
-    outfile << buffer.str() << endl;
+    string input;
+    vector<string> lines;
+    do {
+        getline(cin, input);
+        input.append("\n");
+        lines.push_back(input);
+    } while (input != ".\n");
+
+    for (int i = 0; i < (int) lines.size() - 1; ++i){
+        outfile << lines[i];
+    }
+    outfile.close();
+
     return 0;
 }
