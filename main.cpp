@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
 #ifdef BSD
     std::__fs::filesystem::path targetpath = std::__fs::filesystem::current_path();
 #else
-    path targetpath = current_path();
+    std::filesystem::path targetpath = std::filesystem::current_path();
 #endif
     targetpath /= target;
     ofstream outfile(targetpath, ios::out | ios::binary);
