@@ -1,4 +1,4 @@
-#include<algorithm>
+//#include<algorithm>
 #include<filesystem>
 #include<fstream>
 #include<iostream>
@@ -32,10 +32,16 @@ class TextBuffer{
      this->lines.push_back(input);
    }
 
+   void print(){
+     for (int i = 0; i < this->get_length(); ++i){
+       cout << this->lines[i];
+     }
+   }
+
 } text_buffer;
 
-int main(int argc, char *argv[]){
-    // clean input
+
+void clean_input(int argc){
     if (argc > 2){
         cout << "Only provide one argument" << endl;
         exit(1);
@@ -43,6 +49,10 @@ int main(int argc, char *argv[]){
         cout << "Provide a target file" << endl;
         exit(1);
     }
+}
+
+int main(int argc, char *argv[]){
+    clean_input(argc);
 
     // get outfile
     string target = argv[1];
@@ -54,13 +64,18 @@ int main(int argc, char *argv[]){
     targetpath /= target;
     ofstream outfile(targetpath, ios::out | ios::binary);
 
-    // write out
+    // parse input
     string input;
     do {
         getline(cin, input);
-        text_buffer.set_line(input);
+        if (input == "p"){
+          text_buffer.print();
+        } else {
+          text_buffer.set_line(input);
+        }
     } while (input != ".");
 
+    // write and tidy up
     for (int i = 0; i < text_buffer.get_length() - 1; ++i){
         outfile << text_buffer.get_line(i);
     }
