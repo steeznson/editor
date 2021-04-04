@@ -1,3 +1,4 @@
+#include<algorithm>
 #include<filesystem>
 #include<fstream>
 #include<iostream>
@@ -7,6 +8,31 @@
 //#define BSD
 
 using namespace std;
+
+
+class TextBuffer{
+  private:
+   vector<string> lines;
+
+  public:
+   int get_length(){
+     return this->lines.size();
+   }
+
+   string get_line(int idx){
+     return this->lines[idx];
+   }
+
+   vector<string> get_lines(){
+     return this->lines;
+   }
+
+   void set_line(string input){
+     input.append("\n");
+     this->lines.push_back(input);
+   }
+
+} text_buffer;
 
 int main(int argc, char *argv[]){
     // clean input
@@ -30,15 +56,13 @@ int main(int argc, char *argv[]){
 
     // write out
     string input;
-    vector<string> lines;
     do {
         getline(cin, input);
-        input.append("\n");
-        lines.push_back(input);
-    } while (input != ".\n");
+        text_buffer.set_line(input);
+    } while (input != ".");
 
-    for (int i = 0; i < (int) lines.size() - 1; ++i){
-        outfile << lines[i];
+    for (int i = 0; i < text_buffer.get_length() - 1; ++i){
+        outfile << text_buffer.get_line(i);
     }
     outfile.close();
 
