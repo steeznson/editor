@@ -1,4 +1,4 @@
-//#include<algorithm>
+#include<algorithm>
 #include<filesystem>
 #include<fstream>
 #include<iostream>
@@ -33,9 +33,9 @@ class TextBuffer{
    }
 
    void print(){
-     for (int i = 0; i < this->get_length(); ++i){
-       cout << this->lines[i];
-     }
+     for_each(this->lines.cbegin(), this->lines.cend(),
+              [] (string line) {cout << line;}
+              );
    }
 
 } text_buffer;
@@ -70,14 +70,14 @@ int main(int argc, char *argv[]){
         getline(cin, input);
         if (input == "p"){
           text_buffer.print();
-        } else {
+        } else if (input != "."){
           text_buffer.set_line(input);
         }
     } while (input != ".");
 
     // write and tidy up
-    for (int i = 0; i < text_buffer.get_length() - 1; ++i){
-        outfile << text_buffer.get_line(i);
+    for (auto line: text_buffer.get_lines()){
+        outfile << line;
     }
     outfile.close();
 
