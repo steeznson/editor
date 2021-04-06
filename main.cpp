@@ -2,6 +2,7 @@
 #include<filesystem>
 #include<fstream>
 #include<iostream>
+#include<regex>
 #include<string>
 #include<sstream>
 #include<vector>
@@ -31,6 +32,11 @@ class TextBuffer{
      this->lines.push_back(input);
    }
 
+   void set_line_idx(string input, int idx){
+     input.append("\n");
+     this->lines[idx] = input;
+   }
+
    void print(){
      for_each(this->lines.cbegin(), this->lines.cend(),
               [] (string line) {cout << line;}
@@ -55,6 +61,7 @@ int main(int argc, char *argv[]){
 
     // get outfile
     string target = argv[1];
+    regex is_number("[[:digit:]]+");
 #ifdef BSD
     std::__fs::filesystem::path targetpath = std::__fs::filesystem::current_path();
 #else
@@ -69,6 +76,20 @@ int main(int argc, char *argv[]){
         getline(cin, input);
         if (input == "p"){
           text_buffer.print();
+        } else if (input == "i"){
+            cout << "Select line 1-" << text_buffer.get_length() << "\n";
+            getline(cin, input);
+            if (!(regex_match(input, is_number))){
+               cout << "Invalid line number selection\n";
+               continue;
+            }
+            int idx = stoi(input) - 1;
+            if (idx < 0 || idx > text_buffer.get_length() -1){
+               cout << "Invalid line number selection\n";
+               continue;
+            }
+            getline(cin, input);
+            text_buffer.set_line_idx(input, idx);
         } else if (input != "."){
           text_buffer.set_line(input);
         }
