@@ -7,43 +7,9 @@
 #include<sstream>
 #include<vector>
 
+#include<TextBuffer.h>
+
 using namespace std;
-
-
-class TextBuffer{
-  private:
-   vector<string> lines;
-
-  public:
-   int get_length(){
-     return this->lines.size();
-   }
-
-   string get_line(int idx){
-     return this->lines[idx];
-   }
-
-   vector<string> get_lines(){
-     return this->lines;
-   }
-
-   void set_line(string input){
-     input.append("\n");
-     this->lines.push_back(input);
-   }
-
-   void set_line_idx(string input, int idx){
-     input.append("\n");
-     this->lines[idx] = input;
-   }
-
-   void print(){
-     for_each(this->lines.cbegin(), this->lines.cend(),
-              [] (string line) {cout << line;}
-              );
-   }
-
-} text_buffer;
 
 
 void clean_input(int argc){
@@ -84,7 +50,7 @@ int main(int argc, char *argv[]){
                continue;
             }
             int idx = stoi(input) - 1;
-            if (idx < 0 || idx > text_buffer.get_length() -1){
+            if (idx < 0 || idx > text_buffer.get_length() - 1){
                cout << "Invalid line number selection\n";
                continue;
             }
