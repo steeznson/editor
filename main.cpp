@@ -1,11 +1,8 @@
-#include<algorithm>
 #include<filesystem>
 #include<fstream>
 #include<iostream>
 #include<regex>
 #include<string>
-#include<sstream>
-#include<vector>
 
 #include<TextBuffer.h>
 
